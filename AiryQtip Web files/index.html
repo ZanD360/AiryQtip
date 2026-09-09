@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AIRYQTIP — Your Playlist Defines You</title>
+<meta name="description" content="Airyqtip — a creative ecosystem of music, fashion, custom merchandise, photography, videography, artists, podcasting and local brands.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   AIRYQTIP — DESIGN TOKENS
+   ============================================================ */
+:root{
+  --bg:#08080b;
+  --bg-soft:#0f0f14;
+  --bg-card:#141419;
+  --ink:#f4f2ee;
+  --muted:#9793a5;
+  --muted-dim:#5f5c6b;
+  --magenta:#ff2f8f;
+  --gold:#ffbe4d;
+  --cyan:#4fe3d0;
+  --line: rgba(244,242,238,0.10);
+  --line-strong: rgba(244,242,238,0.22);
+  --display: 'Bebas Neue', sans-serif;
+  --body: 'Space Grotesk', sans-serif;
+  --ease-bounce: cubic-bezier(.22,1.6,.36,1);
+  --ease-out: cubic-bezier(.16,1,.3,1);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+[hidden]{display:none !important;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--body);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%;display:block;}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit;}
+a{color:inherit;text-decoration:none;}
+input{font-family:inherit;}
+::selection{background:var(--magenta);color:#08080b;}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important;}
+}
+
+.grain{
+  position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.035;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.container{max-width:1220px;margin:0 auto;padding:0 32px;}
+@media(max-width:700px){.container{padding:0 20px;}}
+
+/* ---- LOGO MARK ---- */
+.mark{display:inline-flex;align-items:center;gap:10px;}
+.mark svg{display:block;}
+.mark-word{font-family:var(--display);letter-spacing:.04em;font-size:22px;line-height:1;}
+
+/* ---- FLOATING LOGO BACKGROUND ---- */
+.float-field{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:1;}
+.float-logo{position:absolute;opacity:0;will-change:transform,opacity;animation:floatUp linear infinite;}
+.float-logo svg{width:100%;height:100%;}
+@keyframes floatUp{
+  0%{transform:translateY(10vh) rotate(0deg) scale(var(--s,1));opacity:0;}
+  8%{opacity:var(--o,.5);}
+  92%{opacity:var(--o,.5);}
+  100%{transform:translateY(-115vh) rotate(var(--r,40deg)) scale(var(--s,1));opacity:0;}
+}
+
+/* ---- SPLASH SCREEN ---- */
+#splash{
+  position:fixed;inset:0;z-index:200;
+  background:radial-gradient(ellipse at 50% 30%, #14121a 0%, #08080b 65%);
+  display:flex;align-items:center;justify-content:center;flex-direction:column;
+  transition:opacity .9s var(--ease-out), visibility .9s;
+}
+#splash.hide{opacity:0;visibility:hidden;pointer-events:none;}
+.splash-inner{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;text-align:center;}
+.splash-logo-wrap{
+  opacity:0;
+  transform:translateY(-160vh) scale(.55) rotate(-8deg);
+  animation:dropBounce 1.7s var(--ease-bounce) .15s forwards;
+}
+@keyframes dropBounce{
+  0%{opacity:0;transform:translateY(-160vh) scale(.5) rotate(-10deg);}
+  55%{opacity:1;transform:translateY(8px) scale(1.06) rotate(2deg);}
+  72%{transform:translateY(-14px) scale(.98) rotate(-1deg);}
+  86%{transform:translateY(4px) scale(1.02) rotate(.5deg);}
+  100%{opacity:1;transform:translateY(0) scale(1) rotate(0deg);}
+}
+.splash-logo-img{height:90px;width:auto;display:block;}
+@media(max-width:600px){
+  .splash-logo-img{height:64px;}
+}
+.splash-tag{
+  margin-top:18px;font-size:13px;letter-spacing:.32em;color:var(--muted);
+  opacity:0;animation:fadeUp .8s var(--ease-out) 1.7s forwards;
+}
+.splash-enter{
+  margin-top:52px;padding:14px 34px;border:1px solid var(--line-strong);border-radius:100px;
+  font-size:13px;letter-spacing:.12em;color:var(--ink);
+  opacity:0;animation:fadeUp .8s var(--ease-out) 2.1s forwards, pulseGlow 2.4s ease-in-out 2.9s infinite;
+  transition:background .3s, border-color .3s;
+}
+.splash-enter:hover{background:var(--magenta);border-color:var(--magenta);color:#08080b;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+@keyframes pulseGlow{0%,100%{box-shadow:0 0 0 0 rgba(255,47,143,.0);}50%{box-shadow:0 0 26px 2px rgba(255,47,143,.28);}}
+
+/* ---- PROFILE GATE ---- */
+#gate{
+  position:fixed;inset:0;z-index:190;background:var(--bg);
+  display:flex;align-items:flex-start;justify-content:center;
+  overflow-y:auto;padding:40px 0;
+  opacity:0;visibility:hidden;transition:opacity .7s var(--ease-out), visibility .7s;
+}
+#gate.show{opacity:1;visibility:visible;}
+#gate.hide{opacity:0;visibility:hidden;pointer-events:none;}
+.gate-card{
+  width:100%;max-width:440px;padding:44px 36px;margin:24px;
+  background:linear-gradient(180deg, var(--bg-card), var(--bg-soft));
+  border:1px solid var(--line);border-radius:18px;
+  position:relative;z-index:3;
+}
+.gate-eyebrow{font-size:12px;letter-spacing:.28em;color:var(--cyan);margin-bottom:14px;}
+.gate-title{font-family:var(--display);font-size:38px;letter-spacing:.01em;line-height:1.05;margin-bottom:10px;}
+.gate-sub{color:var(--muted);font-size:14.5px;line-height:1.55;margin-bottom:30px;}
+.auth-switch{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;margin-bottom:24px;background:#0c0c11;border:1px solid var(--line);border-radius:10px;}
+.auth-switch button{padding:10px 8px;border-radius:7px;color:var(--muted);font-size:12px;letter-spacing:.04em;transition:background .2s,color .2s;}
+.auth-switch button.active{background:var(--ink);color:#08080b;}
+.field{margin-bottom:16px;}
+.field label{display:block;font-size:12px;color:var(--muted);margin-bottom:7px;letter-spacing:.03em;}
+.field input{
+  width:100%;padding:13px 14px;background:#0c0c11;border:1px solid var(--line);border-radius:9px;
+  color:var(--ink);font-size:14.5px;transition:border-color .25s, box-shadow .25s;
+}
+.field input:focus{outline:none;border-color:var(--magenta);box-shadow:0 0 0 3px rgba(255,47,143,.15);}
+.field.err input{border-color:#ff5b5b;}
+.field-error{font-size:11.5px;color:#ff8484;margin-top:5px;display:none;}
+.field.err .field-error{display:block;}
+.gate-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:420px){.gate-row{grid-template-columns:1fr;}}
+.btn-primary{
+  width:100%;padding:15px;margin-top:8px;border-radius:9px;
+  background:var(--magenta);color:#08080b;font-weight:600;font-size:14px;letter-spacing:.06em;
+  transition:transform .2s var(--ease-out), background .25s, box-shadow .3s;
+}
+.btn-primary:hover{background:#ff58a5;box-shadow:0 8px 24px rgba(255,47,143,.28);transform:translateY(-2px);}
+.btn-google{width:100%;padding:13px 15px;margin-top:12px;border:1px solid var(--line-strong);border-radius:9px;background:#fff;color:#1b1b1f;font-weight:600;font-size:13.5px;display:flex;align-items:center;justify-content:center;gap:10px;transition:transform .2s var(--ease-out),background .2s,box-shadow .3s;}
+.btn-google:hover{background:#f2f2f2;box-shadow:0 8px 24px rgba(0,0,0,.22);transform:translateY(-2px);}
+.google-icon{width:18px;height:18px;display:block;}
+.auth-divider{display:flex;align-items:center;gap:12px;margin:20px 0 4px;color:var(--muted-dim);font-size:11px;letter-spacing:.12em;}
+.auth-divider::before,.auth-divider::after{content:'';height:1px;flex:1;background:var(--line);}
+.auth-forgot{display:block;margin:-2px 0 4px;text-align:right;color:var(--cyan);font-size:11.5px;}
+.auth-forgot:hover{text-decoration:underline;}
+.auth-message{min-height:18px;margin:14px 0 0;color:#ff9b9b;font-size:12px;line-height:1.45;text-align:center;}
+.auth-message.success{color:var(--cyan);}
+.gate-note{font-size:11.5px;color:var(--muted-dim);margin-top:16px;text-align:center;line-height:1.5;}
+
+/* ---- SITE SHELL / NAV ---- */
+#site{opacity:0;transition:opacity .8s var(--ease-out);}
+#site.show{opacity:1;}
+header#nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 32px;
+  background:rgba(8,8,11,.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+}
+@media(max-width:700px){header#nav{padding:14px 20px;}}
+#nav .mark svg{width:26px;height:26px;}
+#nav .mark-word{font-size:20px;}
+.nav-logo{height:34px;width:auto;display:block;}
+@media(max-width:700px){.nav-logo{height:28px;}}
+
+.hero-logo{height:64px;width:auto;margin:0 auto 28px;display:block;}
+@media(max-width:600px){.hero-logo{height:46px;}}
+
+.nav-links{display:flex;gap:6px;align-items:center;}
+.nav-links a{
+  padding:9px 16px;font-size:13.5px;color:var(--muted);border-radius:100px;transition:color .2s, background .2s;
+}
+.nav-links a:hover{color:var(--ink);}
+.nav-links a.active{color:var(--ink);background:rgba(255,255,255,.06);}
+.nav-toggle{display:none;flex-direction:column;gap:4px;padding:8px;}
+.nav-toggle span{width:22px;height:2px;background:var(--ink);border-radius:2px;transition:transform .25s, opacity .25s;}
+@media(max-width:860px){
+  .nav-links{
+    position:fixed;top:60px;left:0;right:0;bottom:0;flex-direction:column;justify-content:flex-start;
+    padding:30px 24px;background:rgba(8,8,11,.98);gap:2px;
+    transform:translateX(100%);transition:transform .35s var(--ease-out);
+  }
+  .nav-links.open{transform:translateX(0);}
+  .nav-links a{width:100%;padding:16px 4px;font-size:20px;border-bottom:1px solid var(--line);border-radius:0;}
+  .nav-toggle{display:flex;}
+}
+.nav-toggle.open span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+.nav-toggle.open span:nth-child(2){opacity:0;}
+.nav-toggle.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+.auth-nav{display:flex;align-items:center;gap:10px;margin-left:auto;margin-right:12px;}
+.auth-user{max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted);font-size:12px;}
+.signout-btn{padding:8px 11px;border:1px solid var(--line-strong);border-radius:100px;color:var(--muted);font-size:11px;letter-spacing:.08em;transition:background .2s,color .2s;}
+.signout-btn:hover{background:var(--ink);color:#08080b;}
+@media(max-width:860px){
+  .auth-nav{position:fixed;right:62px;top:12px;margin:0;}
+  .auth-user{display:none;}
+}
+
+/* ---- PAGES ---- */
+main{position:relative;z-index:2;}
+.page{display:none;padding-top:78px;min-height:100vh;}
+.page.active{display:block;animation:pageIn .6s var(--ease-out);}
+@keyframes pageIn{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+
+.eyebrow{font-size:12px;letter-spacing:.28em;color:var(--cyan);margin-bottom:16px;}
+.eyebrow.gold{color:var(--gold);}
+.eyebrow.magenta{color:var(--magenta);}
+
+/* ---- HOME ---- */
+.hero{
+  min-height:88vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:60px 24px 40px;position:relative;
+}
+.hero-title{
+  font-family:var(--display);font-size:clamp(44px,10vw,108px);line-height:.95;letter-spacing:.005em;
+}
+.hero-title .line2{
+  display:block;background:linear-gradient(92deg,var(--magenta),var(--gold) 55%,var(--cyan));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero-sub{
+  margin-top:22px;font-size:clamp(15px,2vw,19px);color:var(--muted);letter-spacing:.02em;
+}
+.hero-copy{
+  max-width:660px;margin:34px auto 0;color:var(--muted);font-size:15.5px;line-height:1.75;
+}
+.hero-cta{
+  margin-top:38px;padding:16px 40px;border-radius:100px;background:transparent;border:1.5px solid var(--ink);
+  font-size:14px;letter-spacing:.1em;position:relative;overflow:hidden;transition:color .35s, border-color .35s;
+}
+.hero-cta span{position:relative;z-index:2;}
+.hero-cta::before{
+  content:'';position:absolute;inset:0;background:linear-gradient(92deg,var(--magenta),var(--gold));
+  transform:translateX(-101%);transition:transform .4s var(--ease-out);z-index:1;
+}
+.hero-cta:hover::before{transform:translateX(0);}
+.hero-cta:hover{color:#08080b;border-color:transparent;}
+
+.scroll-cue{margin-top:56px;display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--muted-dim);font-size:11px;letter-spacing:.2em;}
+.scroll-cue .line{width:1px;height:34px;background:linear-gradient(var(--muted-dim),transparent);animation:scrollDown 1.8s ease-in-out infinite;}
+@keyframes scrollDown{0%{transform:scaleY(0);transform-origin:top;}50%{transform:scaleY(1);transform-origin:top;}51%{transform-origin:bottom;}100%{transform:scaleY(0);transform-origin:bottom;}}
+
+.pillars{padding:80px 0 100px;}
+.section-head{max-width:640px;margin-bottom:48px;}
+.section-title{font-family:var(--display);font-size:clamp(32px,5vw,52px);line-height:1.02;}
+.section-desc{color:var(--muted);margin-top:12px;font-size:15px;line-height:1.7;max-width:560px;}
+.pillar-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;}
+@media(max-width:860px){.pillar-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:560px){.pillar-grid{grid-template-columns:1fr;}}
+.pillar{background:var(--bg-card);padding:34px 26px;transition:background .3s;cursor:pointer;position:relative;}
+.pillar:hover{background:#1a1a22;}
+.pillar-num{font-size:12px;color:var(--muted-dim);letter-spacing:.1em;}
+.pillar h3{font-family:var(--display);font-size:24px;margin-top:14px;letter-spacing:.01em;}
+.pillar p{color:var(--muted);font-size:13.5px;margin-top:8px;line-height:1.6;}
+.pillar-go{margin-top:16px;font-size:12px;color:var(--cyan);opacity:0;transform:translateX(-6px);transition:opacity .25s, transform .25s;}
+.pillar:hover .pillar-go{opacity:1;transform:translateX(0);}
+
+/* ---- MERCH ---- */
+.page-head{padding:56px 0 40px;text-align:left;}
+.merch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:22px;padding-bottom:100px;}
+.product-card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:transform .35s var(--ease-out), border-color .3s;}
+.product-card:hover{transform:translateY(-6px);border-color:var(--line-strong);}
+.product-media{aspect-ratio:4/5;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+.product-media img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;z-index:2;transition:transform .6s var(--ease-out);}
+.product-card:hover .product-media img{transform:scale(1.06);}
+.placeholder-art{width:100%;height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;position:relative;z-index:1;background:linear-gradient(160deg,#171720,#0c0c10);}
+.placeholder-art .pmark{opacity:.55;}
+.placeholder-art .ptxt{font-size:10.5px;letter-spacing:.12em;color:rgba(244,242,238,.4);}
+.product-body{padding:18px 18px 20px;}
+.product-body h3{font-family:var(--display);font-size:21px;letter-spacing:.01em;}
+.product-price{color:var(--gold);font-size:14px;margin-top:4px;}
+.order-btn{margin-top:14px;width:100%;padding:12px;border:1px solid var(--line-strong);border-radius:8px;font-size:12.5px;letter-spacing:.1em;transition:background .25s,border-color .25s,color .25s;}
+.order-btn:hover{background:var(--ink);color:#08080b;border-color:var(--ink);}
+
+/* ---- PHOTOGRAPHY ---- */
+.photo-headline{font-family:var(--display);font-size:clamp(30px,5.4vw,58px);line-height:1.06;max-width:820px;}
+.photo-headline .accent{color:var(--cyan);}
+.photo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;padding:44px 0 90px;}
+.photo-tile{aspect-ratio:3/4;border-radius:10px;overflow:hidden;cursor:pointer;position:relative;}
+.photo-tile img{width:100%;height:100%;object-fit:cover;transition:transform .5s var(--ease-out);}
+.photo-tile:hover img{transform:scale(1.08);}
+.photo-tile .tile-cap{position:absolute;left:0;right:0;bottom:0;padding:14px;font-size:12px;color:var(--ink);background:linear-gradient(0deg,rgba(0,0,0,.75),transparent);opacity:0;transition:opacity .3s;}
+.photo-tile:hover .tile-cap{opacity:1;}
+.book-shoot-bar{margin:0 0 90px;padding:40px 32px;border-radius:16px;background:linear-gradient(120deg, rgba(255,47,143,.14), rgba(79,227,208,.10));border:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;}
+.book-shoot-bar h3{font-family:var(--display);font-size:26px;}
+.book-shoot-bar p{color:var(--muted);font-size:14px;margin-top:6px;max-width:420px;}
+.btn-outline{padding:14px 28px;border:1.5px solid var(--ink);border-radius:100px;font-size:13px;letter-spacing:.08em;transition:background .3s,color .3s;white-space:nowrap;display:inline-block;}
+.btn-outline:hover{background:var(--ink);color:#08080b;}
+
+#lightbox{position:fixed;inset:0;background:rgba(4,4,6,.97);z-index:300;display:none;align-items:center;justify-content:center;flex-direction:column;}
+#lightbox.open{display:flex;}
+.lb-stage{position:relative;max-width:90vw;max-height:76vh;display:flex;align-items:center;justify-content:center;}
+.lb-stage img{max-width:90vw;max-height:76vh;border-radius:6px;object-fit:contain;}
+.lb-cap{margin-top:18px;color:var(--muted);font-size:13.5px;text-align:center;}
+.lb-close{position:absolute;top:22px;right:26px;font-size:14px;letter-spacing:.1em;color:var(--muted);padding:10px;}
+.lb-close:hover{color:var(--ink);}
+.lb-nav{position:absolute;top:50%;transform:translateY(-50%);font-size:28px;color:var(--ink);padding:14px 18px;opacity:.6;transition:opacity .2s;}
+.lb-nav:hover{opacity:1;}
+.lb-prev{left:6px;}
+.lb-next{right:6px;}
+@media(max-width:700px){.lb-nav{padding:10px 12px;font-size:22px;}}
+
+/* ---- TV ---- */
+.tv-episodes{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:22px;padding:44px 0 40px;}
+.ep-card{background:var(--bg-card);border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:transform .3s var(--ease-out);}
+.ep-card:hover{transform:translateY(-5px);}
+.ep-thumb{aspect-ratio:16/9;position:relative;background:linear-gradient(135deg,#191922,#0f0f14);display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.ep-thumb-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.ep-thumb .play-ring{width:56px;height:56px;border-radius:50%;border:1.5px solid rgba(244,242,238,.55);display:flex;align-items:center;justify-content:center;transition:background .25s, border-color .25s;}
+.ep-card:hover .play-ring{background:var(--magenta);border-color:var(--magenta);}
+.ep-num{position:absolute;top:12px;left:14px;font-family:var(--display);font-size:14px;color:var(--muted);letter-spacing:.06em;}
+.ep-body{padding:16px 18px 20px;}
+.ep-body h3{font-family:var(--display);font-size:19px;}
+.ep-body p{color:var(--muted);font-size:13px;margin-top:5px;line-height:1.55;}
+.ep-actions{margin-top:14px;}
+.watch-btn{width:100%;padding:11px;border:1px solid var(--line-strong);border-radius:8px;font-size:12px;letter-spacing:.08em;transition:background .25s,color .25s;}
+.watch-btn:hover{background:var(--ink);color:#08080b;}
+.tv-cta-row{display:flex;gap:16px;flex-wrap:wrap;padding:20px 0 90px;}
+.btn-solid{padding:15px 30px;border-radius:100px;background:var(--ink);color:#08080b;font-size:13px;letter-spacing:.08em;font-weight:600;transition:transform .2s, box-shadow .3s;}
+.btn-solid:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(244,242,238,.14);}
+
+/* ---- STORY PAGE ---- */
+.story-hero{padding:60px 0 30px;display:grid;grid-template-columns:1.1fr .9fr;gap:60px;align-items:center;}
+@media(max-width:900px){.story-hero{grid-template-columns:1fr;gap:36px;}}
+.story-title{font-family:var(--display);font-size:clamp(34px,6vw,60px);line-height:1.02;}
+.story-title .grad{background:linear-gradient(92deg,var(--gold),var(--magenta));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.story-copy{color:var(--muted);font-size:15px;line-height:1.75;margin-top:20px;max-width:520px;}
+.story-visual{aspect-ratio:4/5;border-radius:18px;background:linear-gradient(160deg,#171720,#0c0c10);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:30px;position:relative;overflow:hidden;}
+.story-visual::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 20%, rgba(255,47,143,.16), transparent 55%),radial-gradient(circle at 80% 80%, rgba(79,227,208,.14), transparent 55%);}
+.story-visual .qr-box{width:118px;height:118px;background:#fff;border-radius:10px;padding:8px;position:relative;z-index:2;}
+.story-visual .qr-box img{width:100%;height:100%;}
+.story-visual .songs{position:relative;z-index:2;text-align:center;font-size:11px;color:var(--muted);line-height:1.9;letter-spacing:.03em;}
+.story-visual .tagchip{position:relative;z-index:2;font-size:10.5px;letter-spacing:.16em;color:var(--gold);border:1px solid rgba(255,190,77,.4);padding:6px 14px;border-radius:100px;}
+
+.steps{padding:40px 0 90px;}
+.step-list{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;}
+@media(max-width:860px){.step-list{grid-template-columns:1fr 1fr;}}
+@media(max-width:520px){.step-list{grid-template-columns:1fr;}}
+.step{background:var(--bg-card);padding:30px 24px;}
+.step .snum{font-family:var(--display);font-size:34px;color:var(--muted-dim);}
+.step h4{font-family:var(--display);font-size:19px;margin-top:10px;letter-spacing:.01em;}
+.step p{color:var(--muted);font-size:13px;margin-top:8px;line-height:1.6;}
+
+/* ---- FINALE ---- */
+.finale{min-height:78vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:100px 24px;position:relative;}
+.finale-lines{font-family:var(--display);font-size:clamp(30px,7vw,72px);line-height:1.14;}
+.finale-lines div{opacity:.25;transition:opacity .5s;}
+.finale-lines div.lit{opacity:1;}
+.finale-lines .f1{color:var(--ink);}
+.finale-lines .f2{color:var(--cyan);}
+.finale-lines .f3{color:var(--gold);}
+.finale-lines .f4{margin-top:18px;background:linear-gradient(92deg,var(--magenta),var(--gold),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent;}
+
+/* ---- FOOTER ---- */
+footer{border-top:1px solid var(--line);padding:44px 0 34px;}
+.footer-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;}
+.footer-links{display:flex;gap:22px;flex-wrap:wrap;}
+.footer-links a{color:var(--muted);font-size:13px;transition:color .2s;}
+.footer-links a:hover{color:var(--ink);}
+.footer-copy{color:var(--muted-dim);font-size:12px;margin-top:24px;}
+
+/* ---- MODALS ---- */
+.modal-overlay{position:fixed;inset:0;background:rgba(4,4,6,.82);backdrop-filter:blur(4px);z-index:250;display:none;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.open{display:flex;}
+.modal-box{width:100%;max-width:440px;background:var(--bg-card);border:1px solid var(--line-strong);border-radius:16px;padding:32px 28px;position:relative;animation:modalIn .35s var(--ease-out);}
+@keyframes modalIn{from{opacity:0;transform:translateY(14px) scale(.97);}to{opacity:1;transform:translateY(0) scale(1);}}
+.modal-close{position:absolute;top:16px;right:18px;font-size:20px;color:var(--muted);padding:6px;}
+.modal-close:hover{color:var(--ink);}
+.modal-eyebrow{font-size:11.5px;letter-spacing:.2em;color:var(--muted);}
+.modal-title{font-family:var(--display);font-size:26px;margin-top:8px;line-height:1.1;}
+.modal-body{color:var(--muted);font-size:14px;line-height:1.7;margin-top:14px;}
+.modal-actions{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap;}
+.modal-actions .btn-primary, .modal-actions .btn-ghost{flex:1;min-width:120px;text-align:center;}
+.btn-ghost{padding:14px;border:1px solid var(--line-strong);border-radius:9px;font-size:13px;transition:background .2s;}
+.btn-ghost:hover{background:rgba(255,255,255,.06);}
+.contact-list{margin-top:18px;display:flex;flex-direction:column;gap:10px;}
+.contact-item{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:#0c0c11;border:1px solid var(--line);border-radius:10px;font-size:13.5px;}
+.contact-item .cname{color:var(--ink);}
+.contact-item .cnum{color:var(--muted);font-size:12.5px;margin-top:2px;}
+.contact-item .go{font-size:11.5px;color:var(--cyan);letter-spacing:.06em;}
+.ig-line{margin-top:14px;font-size:13px;color:var(--muted);}
+.ig-line a{color:var(--gold);}
+.yt-embed{width:100%;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#000;margin-top:6px;}
+.yt-embed iframe{width:100%;height:100%;border:0;}
+@media(max-width:500px){.modal-box{padding:26px 20px;}}
+
+.password-wrap{
+  position:relative;
+}
+
+.password-wrap input{
+  width:100%;
+  padding-right:50px;
+}
+
+.toggle-pass{
+  position:absolute;
+  right:14px;
+  top:50%;
+  transform:translateY(-50%);
+  color:#9793a5;
+  font-size:16px;
+  cursor:pointer;
+  background:none;
+  border:none;
+  padding:0;
+  line-height:1;
+}
+
+.toggle-pass:hover{
+  color:#ff2f8f;
+}
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="float-field" id="floatField"></div>
+
+<!-- SPLASH SCREEN -->
+<section id="splash">
+  <div class="splash-inner">
+    <div class="splash-logo-wrap mark" id="splashLogo">
+      <img src="logos/airyqtip_logo_transparent.png" alt="AIRYQTIP" class="splash-logo-img">
+    </div>
+    <div class="splash-tag">YOUR PLAYLIST DEFINES YOU</div>
+    <button class="splash-enter" id="splashEnter">TAP TO ENTER</button>
+  </div>
+</section>
+
+<!-- PROFILE GATE -->
+<section id="gate">
+  <div class="gate-card">
+    <div class="gate-eyebrow">BEFORE YOU ENTER</div>
+    <h1 class="gate-title" id="gateTitle">Create your Airyqtip profile</h1>
+    <p class="gate-sub" id="gateSub">Create an account to enter the Airyqtip world and keep your profile with you.</p>
+    <div class="auth-switch" role="tablist" aria-label="Account access">
+      <button type="button" class="active" data-auth-mode="signup" role="tab" aria-selected="true">CREATE ACCOUNT</button>
+      <button type="button" data-auth-mode="login" role="tab" aria-selected="false">LOG IN</button>
+    </div>
+    <form id="gateForm" novalidate>
+      <div class="gate-row">
+        <div class="field signup-only" data-field="firstName">
+          <label for="firstName">Full name</label>
+          <input id="firstName" type="text" autocomplete="given-name" placeholder="e.g. Sindi">
+          <div class="field-error">Please enter your name.</div>
+        </div>
+        <div class="field signup-only" data-field="lastName">
+          <label for="lastName">Surname</label>
+          <input id="lastName" type="text" autocomplete="family-name" placeholder="e.g. Mahlangu">
+          <div class="field-error">Please enter your surname.</div>
+        </div>
+      </div>
+      <div class="field" data-field="email">
+        <label for="email">Email</label>
+        <input id="email" type="email" autocomplete="email" placeholder="you@email.com">
+        <div class="field-error">Please enter a valid email.</div>
+      </div>
+      <div class="field signup-only" data-field="phone">
+        <label for="phone">Phone number</label>
+        <input id="phone" type="tel" autocomplete="tel" placeholder="e.g. 0712345678">
+        <div class="field-error">Please enter a valid phone number.</div>
+      </div>
+      <div class="field" data-field="password">
+  <label for="password">Password</label>
+
+  <div class="password-wrap">
+    <input
+      id="password"
+      type="password"
+      autocomplete="new-password"
+      placeholder="Create a password"
+    >
+    <button type="button" class="toggle-pass" data-toggle="password">👁</button>
+  </div>
+
+  <div class="field-error">Password must be at least 6 characters.</div>
+</div>
+
+<div class="field" data-field="confirmPassword">
+  <label for="confirmPassword">Verify Password</label>
+
+  <div class="password-wrap">
+    <input
+      id="confirmPassword"
+      type="password"
+      autocomplete="new-password"
+      placeholder="Re-enter your password"
+    >
+    <button type="button" class="toggle-pass" data-toggle="confirmPassword">👁</button>
+  </div>
+
+  <div class="field-error">Passwords do not match.</div>
+</div>
+      <a href="#" class="auth-forgot" id="forgotPassword" hidden>Forgot your password?</a>
+      <button type="submit" class="btn-primary" id="authSubmit">CREATE ACCOUNT</button>
+      <div class="auth-divider"><span>OR</span></div>
+      <button type="button" class="btn-google" id="googleSignIn">
+        <svg class="google-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="#4285F4" d="M21.35 12.23c0-.71-.06-1.4-.18-2.05H12v3.88h5.24a4.48 4.48 0 0 1-1.94 2.94v2.44h3.14c1.84-1.7 2.91-4.2 2.91-7.21Z"/>
+          <path fill="#34A853" d="M12 21.69c2.63 0 4.84-.87 6.45-2.35l-3.14-2.44c-.87.58-1.98.93-3.31.93-2.54 0-4.69-1.72-5.46-4.03H3.29v2.52A9.74 9.74 0 0 0 12 21.69Z"/>
+          <path fill="#FBBC05" d="M6.54 13.8A5.85 5.85 0 0 1 6.23 12c0-.62.11-1.22.31-1.8V7.68H3.29A9.74 9.74 0 0 0 2.25 12c0 1.57.38 3.05 1.04 4.32l3.25-2.52Z"/>
+          <path fill="#EA4335" d="M12 6.17c1.43 0 2.71.49 3.72 1.45l2.79-2.79C16.84 3.27 14.63 2.31 12 2.31a9.74 9.74 0 0 0-8.71 5.37l3.25 2.52C7.31 7.89 9.46 6.17 12 6.17Z"/>
+        </svg>
+        <span id="googleLabel">CONTINUE WITH GOOGLE</span>
+      </button>
+      <p class="auth-message" id="authMessage" role="status" aria-live="polite"></p>
+      <p class="gate-note">By continuing, you agree to receive updates from Airyqtip. Your details are used only to build your profile in this experience.</p>
+    </form>
+  </div>
+</section>
+
+<!-- SITE -->
+<div id="site">
+  <header id="nav">
+    <a href="#" class="mark" data-page="home">
+      <img src="logos/logo101_transparent.png" alt="AIRYQTIP" class="nav-logo">
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#" data-page="home" class="active">Home</a>
+      <a href="#" data-page="merch">Merch</a>
+      <a href="#" data-page="photography">Photography</a>
+      <a href="#" data-page="tv">Airyqtip TV</a>
+      <a href="#" data-page="story">Create Your Story</a>
+    </nav>
+    <div class="auth-nav" id="authNav" hidden>
+      <span class="auth-user" id="authUserLabel"></span>
+      <button type="button" class="signout-btn" id="signOutBtn">SIGN OUT</button>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+  </header>
+
+  <main>
+
+    <!-- HOME -->
+    <section class="page active" id="page-home">
+      <div class="hero container">
+        <img src="logos/logo101_transparent.png" alt="AIRYQTIP" class="hero-logo">
+        <h1 class="hero-title">WELCOME TO<span class="line2">AIRYQTIP</span></h1>
+        <p class="hero-sub">Your playlist defines you.</p>
+        <p class="hero-copy">Airyqtip is a creative ecosystem built at the intersection of sound and identity — where music, fashion, custom merchandise, photography, videography, artists, podcasting and local brands come together as one culture. We don't just make products. We turn the songs that shape you into something you can wear, watch, and belong to.</p>
+        <button class="hero-cta" id="enterWorldBtn"><span>ENTER OUR WORLD</span></button>
+        <div class="scroll-cue"><div class="line"></div>SCROLL</div>
+      </div>
+
+      <div class="pillars container" id="pillarsSection">
+        <div class="section-head">
+          <div class="eyebrow">THE ECOSYSTEM</div>
+          <h2 class="section-title">One culture. Seven worlds.</h2>
+          <p class="section-desc">Every part of Airyqtip feeds the next — the music inspires the merch, the merch is captured on camera, the camera fuels the show.</p>
+        </div>
+        <div class="pillar-grid">
+          <div class="pillar" data-goto="merch"><div class="pillar-num">01</div><h3>Fashion &amp; Merch</h3><p>Wearable art built from playlists — custom hoodies, tees and drops.</p><div class="pillar-go">Shop the collection →</div></div>
+          <div class="pillar" data-goto="photography"><div class="pillar-num">02</div><h3>Photography</h3><p>Where music meets memories — every drop, shot and styled.</p><div class="pillar-go">View the gallery →</div></div>
+          <div class="pillar" data-goto="tv"><div class="pillar-num">03</div><h3>Videography &amp; TV</h3><p>Episodes, stories and the artists behind the sound.</p><div class="pillar-go">Watch Airyqtip TV →</div></div>
+          <div class="pillar" data-goto="story"><div class="pillar-num">04</div><h3>Music</h3><p>The playlist is the starting point for everything we make.</p><div class="pillar-go">Create your story →</div></div>
+          <div class="pillar" data-goto="tv"><div class="pillar-num">05</div><h3>Artists &amp; Podcasting</h3><p>The voices and creators shaping the Airyqtip world.</p><div class="pillar-go">Meet the guests →</div></div>
+          <div class="pillar" data-goto="merch"><div class="pillar-num">06</div><h3>Local Brands</h3><p>Collaborations with the creators building culture around us.</p><div class="pillar-go">See the drops →</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MERCH -->
+    <section class="page" id="page-merch">
+      <div class="container">
+        <div class="page-head">
+          <div class="eyebrow gold">FASHION &amp; MERCHANDISE</div>
+          <h2 class="section-title">Wear the sound.</h2>
+          <p class="section-desc">Every piece is designed around a mood, a genre, a feeling. Pick what sounds like you.</p>
+        </div>
+        <div class="merch-grid" id="merchGrid"></div>
+      </div>
+    </section>
+
+    <!-- PHOTOGRAPHY -->
+    <section class="page" id="page-photography">
+      <div class="container">
+        <div class="page-head">
+          <div class="eyebrow magenta">PHOTOGRAPHY</div>
+          <h2 class="photo-headline">Where Music Meets Memories.<br>Where Every Moment <span class="accent">Becomes Art.</span></h2>
+        </div>
+        <div class="photo-grid" id="photoGrid"></div>
+        <div class="book-shoot-bar">
+          <div>
+            <h3>Book a Photoshoot</h3>
+            <p>Styled in Airyqtip, shot for the story. Let's capture your moment.</p>
+          </div>
+          <button class="btn-outline" id="bookShootBtn">BOOK A PHOTOSHOOT</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TV -->
+    <section class="page" id="page-tv">
+      <div class="container">
+        <div class="page-head">
+          <div class="eyebrow">AIRYQTIP TV</div>
+          <h2 class="photo-headline">Every playlist has a story.<br>Every story deserves to be <span class="accent" style="color:var(--gold)">heard.</span></h2>
+        </div>
+        <div class="tv-episodes" id="tvGrid"></div>
+        <div class="tv-cta-row">
+          <button class="btn-solid" id="nextGuestBtn">BE OUR NEXT GUEST</button>
+          <a class="btn-outline" id="ytChannelBtn" href="https://www.youtube.com/@Airyqtip" target="_blank" rel="noopener">VISIT OUR YOUTUBE CHANNEL</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CREATE YOUR STORY -->
+    <section class="page" id="page-story">
+      <div class="container">
+        <div class="story-hero">
+          <div>
+            <div class="eyebrow magenta">CREATE YOUR STORY</div>
+            <h2 class="story-title">Your playlist,<br><span class="grad">turned into art.</span></h2>
+            <p class="story-copy">Choose 10–15 songs that define you — the ones that got you through, that remind you of someone, that feel like home. We turn that playlist into wearable art: a piece featuring your songs, finished with a QR code linked straight to your playlist. Scan it, and the story plays.</p>
+          </div>
+          <div class="story-visual">
+            <div class="tagchip">YOUR PLAYLIST, WEARABLE</div>
+            <div class="songs">01 — Track Title<br>02 — Track Title<br>03 — Track Title<br>… up to 15 songs</div>
+            <div class="qr-box"><img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://open.spotify.com/playlist/airyqtip-demo" alt="Example QR code linking to a playlist"></div>
+          </div>
+        </div>
+
+        <div class="steps">
+          <div class="step-list">
+            <div class="step"><div class="snum">01</div><h4>Curate</h4><p>Pick 10–15 songs that define who you are right now.</p></div>
+            <div class="step"><div class="snum">02</div><h4>Submit</h4><p>Send us your playlist and tell us the story behind it.</p></div>
+            <div class="step"><div class="snum">03</div><h4>Design</h4><p>We turn your tracklist and a scannable QR into wearable art.</p></div>
+            <div class="step"><div class="snum">04</div><h4>Wear</h4><p>Your piece arrives — your story, playable by anyone who scans it.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="finale" id="finale">
+        <div class="finale-lines" id="finaleLines">
+          <div class="f1">WEAR YOUR MUSIC.</div>
+          <div class="f2">LIVE YOUR STORY.</div>
+          <div class="f3">CAPTURE THE MOMENT.</div>
+          <div class="f4">WELCOME TO THE AIRYQTIP FAMILY.</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-row">
+        <div class="mark"><span class="mark-word" style="font-size:17px;">AIRYQTIP</span></div>
+        <div class="footer-links">
+          <a href="#" data-page="home">Home</a>
+          <a href="#" data-page="merch">Merch</a>
+          <a href="#" data-page="photography">Photography</a>
+          <a href="#" data-page="tv">Airyqtip TV</a>
+          <a href="#" data-page="story">Create Your Story</a>
+          <a href="https://www.instagram.com/airyqtip/" target="_blank" rel="noopener">Instagram</a>
+        </div>
+      </div>
+      <div class="footer-copy">© <span id="year"></span> Airyqtip. Your playlist defines you.</div>
+    </div>
+  </footer>
+</div>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="modalOrderConfirm">
+  <div class="modal-box">
+    <button class="modal-close" data-close>✕</button>
+    <div class="modal-eyebrow">CONFIRM ORDER</div>
+    <h3 class="modal-title" id="orderConfirmTitle">Order this item?</h3>
+    <p class="modal-body">We'll show you exactly how to complete your order once you confirm.</p>
+    <div class="modal-actions">
+      <button class="btn-ghost" data-close>No</button>
+      <button class="btn-primary" id="orderYesBtn">Yes, order it</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalOrderInfo">
+  <div class="modal-box">
+    <button class="modal-close" data-close>✕</button>
+    <div class="modal-eyebrow">HOW TO ORDER</div>
+    <h3 class="modal-title">You're almost there</h3>
+    <p class="modal-body">Message us the item name, your size and your delivery details, and we'll confirm payment and timing with you directly.</p>
+    <div class="contact-list">
+      <a class="contact-item" id="whatsSipho" target="_blank" rel="noopener">
+        <div><div class="cname">Sipho Mziwakhe</div><div class="cnum">0799171544</div></div>
+        <div class="go">WhatsApp →</div>
+      </a>
+      <a class="contact-item" id="whatsZandile" target="_blank" rel="noopener">
+        <div><div class="cname">Zandile Mziwake</div><div class="cnum">0749427442</div></div>
+        <div class="go">WhatsApp →</div>
+      </a>
+    </div>
+    <p class="ig-line">Or DM us on Instagram <a href="https://www.instagram.com/airyqtip/" target="_blank" rel="noopener">@airyqtip</a></p>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalBookShoot">
+  <div class="modal-box">
+    <button class="modal-close" data-close>✕</button>
+    <div class="modal-eyebrow">BOOK A PHOTOSHOOT</div>
+    <h3 class="modal-title">How should we reach you?</h3>
+    <p class="modal-body">Tell us your idea, your availability, and what you'll be wearing — we'll take it from there.</p>
+    <div class="modal-actions">
+      <a class="btn-primary" id="shootWhatsapp" target="_blank" rel="noopener" style="text-align:center;">WhatsApp</a>
+      <a class="btn-ghost" id="shootEmail" style="text-align:center;">Email</a>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalWatch">
+  <div class="modal-box" style="max-width:640px;">
+    <button class="modal-close" data-close>✕</button>
+    <div class="modal-eyebrow">AIRYQTIP TV</div>
+    <h3 class="modal-title" id="watchTitle">Episode</h3>
+    <div class="yt-embed"><iframe id="watchFrame" src="" title="Airyqtip TV episode" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalGuest">
+  <div class="modal-box">
+    <button class="modal-close" data-close>✕</button>
+    <div class="modal-eyebrow">BE OUR NEXT GUEST</div>
+    <h3 class="modal-title">Got a story worth hearing?</h3>
+    <p class="modal-body">Reach out and tell us about you, your music or your brand — we book new guests every episode.</p>
+    <div class="contact-list">
+      <a class="contact-item" id="guestSipho" target="_blank" rel="noopener">
+        <div><div class="cname">Sipho Mziwakhe</div><div class="cnum">0799171544</div></div>
+        <div class="go">WhatsApp →</div>
+      </a>
+      <a class="contact-item" id="guestZandile" target="_blank" rel="noopener">
+        <div><div class="cname">Zandile Mziwake</div><div class="cnum">0749427442</div></div>
+        <div class="go">WhatsApp →</div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div id="lightbox">
+  <button class="lb-close" data-lbclose>CLOSE ✕</button>
+  <button class="lb-nav lb-prev" id="lbPrev">‹</button>
+  <button class="lb-nav lb-next" id="lbNext">›</button>
+  <div class="lb-stage"><img id="lbImg" src="" alt=""></div>
+  <div class="lb-cap" id="lbCap"></div>
+</div>
+
+<script>
+const CONTACTS = {
+  sipho: { name:'Sipho Mziwakhe', phone:'0799171544', wa:'27799171544' },
+  zandile: { name:'Zandile Mziwake', phone:'0749427442', wa:'27749427442' },
+  instagram: 'https://www.instagram.com/airyqtip/',
+  email: 'bookings@airyqtip.com',
+  youtube: 'https://www.youtube.com/@airyqtip'
+};
+
+const PRODUCTS = [
+  {id:1, name:'AiryMerch', price:'R650', img:'merch/photo1.jpg', hue:0},
+  {id:2, name:'Hoody', price:'R450', img:'merch/photo2.jpg', hue:1},
+  {id:3, name:'Plain Tee', price:'R350', img:'merch/photo3.jpeg', hue:2},
+  {id:4, name:'Plain Tee', price:'R350', img:'merch/photo4.jpg', hue:0},
+  {id:5, name:'Plain Tee', price:'R350', img:'merch/photo5.jpg', hue:1},
+  {id:6, name:'Plain Tee', price:'R350', img:'merch/photo6.jpg', hue:2},
+  {id:7, name:'AiryTee with Playlist', price:'R450', img:'merch/photo7.jpg', hue:0},
+  {id:8, name:'Black AiryTee', price:'R350', img:'merch/photo8.jpg', hue:1},
+  {id:9, name:'Airy Sweater', price:'R680', img:'merch/photo9.jpg', hue:2},
+  {id:10, name:'Plain Tee', price:'R350', img:'merch/photo10.jpg', hue:0},
+  {id:11, name:'AiryHoody & shorts', price:'R650 Hoody & R350 shorts', img:'merch/photo11.jpg', hue:1},
+  {id:12, name:'AiryTee with Playlist', price:'R450 each', img:'merch/photo12.jpeg', hue:2},
+  {id:13, name:'AiryTee with Playlist', price:'R450 each', img:'merch/photo13.jpeg', hue:1},
+  {id:14, name:'AiryQtip Merch', price:'R350 Hoody & R250 Cap', img:'merch/photo14.jpg', hue:2},
+];
+
+
+const PHOTOS = [
+  {id:1, img:'photography/photoshoot (1).jpg', cap:'Photoshoot 1'},
+  {id:2, img:'photography/photoshoot (2).jpg', cap:'Photoshoot 2'},
+  {id:3, img:'photography/photoshoot (3).jpg', cap:'Photoshoot 3'},
+  {id:4, img:'photography/photoshoot (4).jpg', cap:'Photoshoot 4'},
+  {id:5, img:'photography/photoshoot (5).jpg', cap:'Photoshoot 5'},
+  {id:6, img:'photography/photoshoot (6).jpg', cap:'Photoshoot 6'},
+  {id:7, img:'photography/photoshoot (7).jpg', cap:'Photoshoot 7'},
+  {id:8, img:'photography/photoshoot (8).jpg', cap:'Photoshoot 8'},
+  {id:9, img:'photography/photoshoot (9).jpg', cap:'Photoshoot 9'},
+  {id:10, img:'photography/photoshoot (10).jpg', cap:'Photoshoot 10'},
+  {id:11, img:'photography/photoshoot (11).jpg', cap:'Photoshoot 11'},
+  {id:12, img:'photography/photoshoot (12).jpg', cap:'Photoshoot 12'},
+];
+
+const EPISODES = [
+  {
+    n: 1,
+    title: 'Episode 1',
+    desc: 'Big Talk With Stlawela.',
+    video: 'yCzq5Vwz4oY'
+  },
+  {
+    n: 2,
+    title: 'Episode 2',
+    desc: 'Motswako Winter Festival.',
+    video: '9k0ztt8YcVk'
+  },
+  {
+    n: 3,
+    title: 'Glitch episode',
+    desc: 'Tipsy,Raw & Uncut, A Playlist by Airy Founder.',
+    video: 'XOg5sIeLLtY'
+  },
+  {
+    n: 4,
+    title: 'Episode 13',
+    desc: 'Palesa Keamogetswe Maimane: The Mommy club, fasion and beauty.',
+    video: 'jczZBXDe9Mo'
+  },
+  {
+    n: 5,
+    title: 'MUSIC VIDEO',
+    desc: 'QueenZee- AIRYQTIP .',
+    video: '7nOlC-J15tc'
+  }
+];
+
+const HUES = [
+  {a:'#ff2f8f', b:'#2a0f1e'},
+  {a:'#ffbe4d', b:'#241a0a'},
+  {a:'#4fe3d0', b:'#0a2220'}
+];
+function placeholderSVG(hue, label){
+  const h = HUES[hue % HUES.length];
+  return `data:image/svg+xml,${encodeURIComponent(`
+    <svg xmlns='http://www.w3.org/2000/svg' width='600' height='750'>
+      <defs>
+        <linearGradient id='g' x1='0' y1='0' x2='1' y2='1'>
+          <stop offset='0' stop-color='${h.a}' stop-opacity='.55'/>
+          <stop offset='1' stop-color='${h.b}'/>
+        </linearGradient>
+      </defs>
+      <rect width='100%' height='100%' fill='#101014'/>
+      <rect width='100%' height='100%' fill='url(#g)'/>
+      <circle cx='300' cy='330' r='90' fill='none' stroke='rgba(244,242,238,.5)' stroke-width='2'/>
+      <path d='M270 295 L340 330 L270 365 Z' fill='rgba(244,242,238,.75)'/>
+      <text x='300' y='470' font-family='sans-serif' font-size='16' fill='rgba(244,242,238,.55)' text-anchor='middle' letter-spacing='2'>${label}</text>
+    </svg>`)}`;
+}
+
+function logoSVG(){
+  return `<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="32" cy="32" r="31" stroke="rgba(244,242,238,.5)" stroke-width="2"/>
+    <path d="M25 20L44 32L25 44V20Z" fill="rgba(244,242,238,.5)"/>
+  </svg>`;
+}
+function seedFloatField(count){
+  const field = document.getElementById('floatField');
+  field.innerHTML = '';
+  for(let i=0;i<count;i++){
+    const el = document.createElement('div');
+    el.className = 'float-logo';
+    const size = 18 + Math.random()*46;
+    const left = Math.random()*100;
+    const dur = 14 + Math.random()*18;
+    const delay = Math.random()*-20;
+    const opac = 0.06 + Math.random()*0.18;
+    const rot = (Math.random()>.5?1:-1) * (20+Math.random()*60);
+    el.style.left = left+'vw';
+    el.style.width = size+'px';
+    el.style.height = size+'px';
+    el.style.setProperty('--o', opac);
+    el.style.setProperty('--r', rot+'deg');
+    el.style.setProperty('--s', (0.8+Math.random()*0.6).toFixed(2));
+    el.style.animationDuration = dur+'s';
+    el.style.animationDelay = delay+'s';
+    el.innerHTML = logoSVG();
+    field.appendChild(el);
+  }
+}
+seedFloatField(16);
+
+const splash = document.getElementById('splash');
+const gate = document.getElementById('gate');
+const site = document.getElementById('site');
+
+function goToGateOrSite(){
+  splash.classList.add('hide');
+  setTimeout(()=>{
+    if(window.airyqtipUser){ enterSite(); }
+    else { gate.classList.add('show'); }
+  }, 500);
+}
+
+let splashAdvanced = false;
+function advanceSplash(){
+  if(splashAdvanced) return;
+  splashAdvanced = true;
+  goToGateOrSite();
+}
+document.getElementById('splashEnter').addEventListener('click', advanceSplash);
+splash.addEventListener('click', (e)=>{ if(e.target===splash) advanceSplash(); });
+setTimeout(advanceSplash, 4200);
+
+function enterSite(){
+  splash.classList.add('hide');
+  gate.classList.remove('show');
+  gate.classList.add('hide');
+  site.classList.add('show');
+}
+
+const navLinks = document.querySelectorAll('[data-page]');
+const pages = document.querySelectorAll('.page');
+function showPage(name){
+  pages.forEach(p=>p.classList.toggle('active', p.id === 'page-'+name));
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.toggle('active', a.dataset.page===name));
+  window.scrollTo(0,0);
+  document.getElementById('navLinks').classList.remove('open');
+  document.getElementById('navToggle').classList.remove('open');
+}
+navLinks.forEach(link=>{
+  link.addEventListener('click', (e)=>{ e.preventDefault(); showPage(link.dataset.page); });
+});
+document.querySelectorAll('.pillar[data-goto]').forEach(p=>{
+  p.addEventListener('click', ()=> showPage(p.dataset.goto));
+});
+document.getElementById('enterWorldBtn').addEventListener('click', ()=>{
+  document.getElementById('pillarsSection').scrollIntoView({behavior:'smooth'});
+});
+document.getElementById('navToggle').addEventListener('click', ()=>{
+  document.getElementById('navLinks').classList.toggle('open');
+  document.getElementById('navToggle').classList.toggle('open');
+});
+
+function logoSVGsized(px){
+  return `<svg width="${px}" height="${px}" viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="31" stroke="rgba(244,242,238,.35)" stroke-width="2"/><path d="M25 20L44 32L25 44V20Z" fill="rgba(244,242,238,.35)"/></svg>`;
+}
+const merchGrid = document.getElementById('merchGrid');
+PRODUCTS.forEach(p=>{
+  const card = document.createElement('div');
+  card.className = 'product-card';
+  card.innerHTML = `
+    <div class="product-media">
+      <img src="${p.img}" alt="${p.name}" onerror="this.remove()">
+      <div class="placeholder-art"><div class="pmark">${logoSVGsized(46)}</div><div class="ptxt">ADD PRODUCT PHOTO</div></div>
+    </div>
+    <div class="product-body">
+      <h3>${p.name}</h3>
+      <div class="product-price">${p.price}</div>
+      <button class="order-btn" data-name="${p.name}">ORDER ITEM</button>
+    </div>`;
+  merchGrid.appendChild(card);
+});
+
+const photoGrid = document.getElementById('photoGrid');
+PHOTOS.forEach((ph, i)=>{
+  const tile = document.createElement('div');
+  tile.className = 'photo-tile';
+  tile.dataset.index = i;
+  const fallback = placeholderSVG(i%3, 'AIRYQTIP');
+  tile.innerHTML = `<img src="${ph.img}" alt="${ph.cap}" onerror="this.src='${fallback}'"><div class="tile-cap">${ph.cap}</div>`;
+  tile.addEventListener('click', ()=> openLightbox(i));
+  photoGrid.appendChild(tile);
+});
+
+const lightbox = document.getElementById('lightbox');
+const lbImg = document.getElementById('lbImg');
+const lbCap = document.getElementById('lbCap');
+let lbIndex = 0;
+function openLightbox(i){ lbIndex = i; renderLightbox(); lightbox.classList.add('open'); }
+function renderLightbox(){
+  const ph = PHOTOS[lbIndex];
+  const fallback = placeholderSVG(lbIndex%3, 'AIRYQTIP');
+  lbImg.src = ph.img;
+  lbImg.onerror = ()=>{ lbImg.onerror=null; lbImg.src = fallback; };
+  lbCap.textContent = ph.cap;
+}
+document.getElementById('lbNext').addEventListener('click', ()=>{ lbIndex=(lbIndex+1)%PHOTOS.length; renderLightbox(); });
+document.getElementById('lbPrev').addEventListener('click', ()=>{ lbIndex=(lbIndex-1+PHOTOS.length)%PHOTOS.length; renderLightbox(); });
+document.querySelectorAll('[data-lbclose]').forEach(b=>b.addEventListener('click', ()=> lightbox.classList.remove('open')));
+lightbox.addEventListener('click', (e)=>{ if(e.target===lightbox) lightbox.classList.remove('open'); });
+document.addEventListener('keydown', (e)=>{
+  if(!lightbox.classList.contains('open')) return;
+  if(e.key==='Escape') lightbox.classList.remove('open');
+  if(e.key==='ArrowRight') document.getElementById('lbNext').click();
+  if(e.key==='ArrowLeft') document.getElementById('lbPrev').click();
+});
+let touchStartX = null;
+lightbox.addEventListener('touchstart', e=> touchStartX = e.touches[0].clientX);
+lightbox.addEventListener('touchend', e=>{
+  if(touchStartX===null) return;
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  if(dx > 50) document.getElementById('lbPrev').click();
+  if(dx < -50) document.getElementById('lbNext').click();
+  touchStartX = null;
+});
+
+const tvGrid = document.getElementById('tvGrid');
+EPISODES.forEach(ep=>{
+  const card = document.createElement('div');
+  card.className = 'ep-card';
+  card.innerHTML = `
+    <div class="ep-thumb">
+      <img src="https://img.youtube.com/vi/${ep.video}/hqdefault.jpg" alt="${ep.title}" class="ep-thumb-img">
+      <div class="ep-num">EP ${String(ep.n).padStart(2,'0')}</div><div class="play-ring">▶</div>
+    </div>
+    <div class="ep-body">
+      <h3>${ep.title}</h3>
+      <p>${ep.desc}</p>
+      <div class="ep-actions"><button class="watch-btn" data-video="${ep.video}" data-title="${ep.title}">WATCH EPISODE</button></div>
+    </div>`;
+  tvGrid.appendChild(card);
+});
+tvGrid.addEventListener('click', (e)=>{
+  const btn = e.target.closest('.watch-btn');
+  if(!btn) return;
+  document.getElementById('watchTitle').textContent = btn.dataset.title;
+  document.getElementById('watchFrame').src = `https://www.youtube.com/embed/${btn.dataset.video}?autoplay=1`;
+  openModal('modalWatch');
+});
+
+function openModal(id){ document.getElementById(id).classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(ov=>{
+  ov.addEventListener('click', (e)=>{ if(e.target===ov) ov.classList.remove('open'); });
+  ov.querySelectorAll('[data-close]').forEach(b=> b.addEventListener('click', ()=> ov.classList.remove('open')));
+});
+document.addEventListener('keydown', (e)=>{
+  if(e.key==='Escape'){
+    document.querySelectorAll('.modal-overlay.open').forEach(m=> m.classList.remove('open'));
+    document.getElementById('watchFrame').src = '';
+  }
+});
+
+let pendingProduct = '';
+merchGrid.addEventListener('click', (e)=>{
+  const btn = e.target.closest('.order-btn');
+  if(!btn) return;
+  pendingProduct = btn.dataset.name;
+  document.getElementById('orderConfirmTitle').textContent = `Order the ${pendingProduct}?`;
+  openModal('modalOrderConfirm');
+});
+document.getElementById('orderYesBtn').addEventListener('click', ()=>{
+  closeModal('modalOrderConfirm');
+  const msg = encodeURIComponent(`Hi! I'd like to order the ${pendingProduct} from Airyqtip.`);
+  document.getElementById('whatsSipho').href = `https://wa.me/${CONTACTS.sipho.wa}?text=${msg}`;
+  document.getElementById('whatsZandile').href = `https://wa.me/${CONTACTS.zandile.wa}?text=${msg}`;
+  openModal('modalOrderInfo');
+});
+
+document.getElementById('bookShootBtn').addEventListener('click', ()=>{
+  const msg = encodeURIComponent(`Hi! I'd like to book a photoshoot with Airyqtip.`);
+  document.getElementById('shootWhatsapp').href = `https://wa.me/${CONTACTS.sipho.wa}?text=${msg}`;
+  document.getElementById('shootEmail').href = `mailto:${CONTACTS.email}?subject=Photoshoot%20booking&body=${msg}`;
+  openModal('modalBookShoot');
+});
+
+document.getElementById('nextGuestBtn').addEventListener('click', ()=>{
+  const msg = encodeURIComponent(`Hi! I'd love to be a guest on Airyqtip TV.`);
+  document.getElementById('guestSipho').href = `https://wa.me/${CONTACTS.sipho.wa}?text=${msg}`;
+  document.getElementById('guestZandile').href = `https://wa.me/${CONTACTS.zandile.wa}?text=${msg}`;
+  openModal('modalGuest');
+});
+
+const finaleLines = document.querySelectorAll('#finaleLines > div');
+const finaleObserver = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      finaleLines.forEach((l,i)=> setTimeout(()=> l.classList.add('lit'), i*260));
+      finaleObserver.disconnect();
+    }
+  });
+}, {threshold:.5});
+finaleObserver.observe(document.getElementById('finale'));
+
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// Show / Hide password
+document.querySelectorAll(".toggle-pass").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const input = document.getElementById(btn.dataset.toggle);
+
+    if (input.type === "password") {
+      input.type = "text";
+      btn.textContent = "Hide";
+    } else {
+      input.type = "password";
+      btn.textContent = "Show";
+    }
+  });
+});
+</script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+  import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    signInWithPopup,
+    GoogleAuthProvider,
+    sendPasswordResetEmail,
+    onAuthStateChanged,
+    signOut,
+    updateProfile
+  } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCNbxpNW8C-vALKo-UJ-gUfTKRcZMnimSM",
+    authDomain: "airyqtip-5219a.firebaseapp.com",
+    projectId: "airyqtip-5219a",
+    storageBucket: "airyqtip-5219a.firebasestorage.app",
+    messagingSenderId: "586412462389",
+    appId: "1:586412462389:web:372eaeac0abe9710e2bc7c",
+    measurementId: "G-XKWNQLSKSM"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const googleProvider = new GoogleAuthProvider();
+  googleProvider.setCustomParameters({ prompt: 'select_account' });
+
+  const gate = document.getElementById('gate');
+  const site = document.getElementById('site');
+  const form = document.getElementById('gateForm');
+  const gateTitle = document.getElementById('gateTitle');
+  const gateSub = document.getElementById('gateSub');
+  const authSubmit = document.getElementById('authSubmit');
+  const googleSignIn = document.getElementById('googleSignIn');
+  const googleLabel = document.getElementById('googleLabel');
+  const authMessage = document.getElementById('authMessage');
+  const forgotPassword = document.getElementById('forgotPassword');
+  const authNav = document.getElementById('authNav');
+  const authUserLabel = document.getElementById('authUserLabel');
+  const signOutBtn = document.getElementById('signOutBtn');
+  const fields = {
+    firstName: document.getElementById('firstName'),
+    lastName: document.getElementById('lastName'),
+    email: document.getElementById('email'),
+    phone: document.getElementById('phone'),
+    password: document.getElementById('password'),
+    confirmPassword: document.getElementById('confirmPassword')
+  };
+  let authMode = 'signup';
+
+  function setMessage(message = '', success = false) {
+    authMessage.textContent = message;
+    authMessage.classList.toggle('success', success);
+  }
+
+  function setLoading(loading) {
+    form.querySelectorAll('button, input, a').forEach((element) => {
+      element.disabled = loading;
+      if (element.tagName === 'A') element.style.pointerEvents = loading ? 'none' : '';
+    });
+    googleSignIn.disabled = loading;
+    authSubmit.textContent = loading
+      ? 'PLEASE WAIT…'
+      : authMode === 'signup' ? 'CREATE ACCOUNT' : 'LOG IN';
+  }
+
+  function setAuthMode(mode) {
+    authMode = mode;
+    const signup = mode === 'signup';
+    document.querySelectorAll('[data-auth-mode]').forEach((button) => {
+      const active = button.dataset.authMode === mode;
+      button.classList.toggle('active', active);
+      button.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+    document.querySelectorAll('.signup-only').forEach((field) => {
+      field.hidden = !signup;
+      field.querySelector('input').required = signup;
+      field.classList.remove('err');
+    });
+    document.querySelector('[data-field="confirmPassword"]').hidden = !signup;
+    fields.confirmPassword.required = signup;
+    fields.confirmPassword.closest('.field').classList.remove('err');
+    gateTitle.textContent = signup ? 'Create your Airyqtip profile' : 'Welcome back to Airyqtip';
+    gateSub.textContent = signup
+      ? 'Create an account to enter the Airyqtip world and keep your profile with you.'
+      : 'Log in to continue into the Airyqtip world.';
+    authSubmit.textContent = signup ? 'CREATE ACCOUNT' : 'LOG IN';
+    googleLabel.textContent = signup ? 'CONTINUE WITH GOOGLE' : 'SIGN IN WITH GOOGLE';
+    forgotPassword.hidden = signup;
+    setMessage('');
+  }
+
+  function readableAuthError(error) {
+    const messages = {
+      'auth/email-already-in-use': 'That email already has an account. Switch to Log in instead.',
+      'auth/invalid-credential': 'The email or password is incorrect.',
+      'auth/invalid-login-credentials': 'The email or password is incorrect.',
+      'auth/weak-password': 'Use a password with at least 6 characters.',
+      'auth/popup-closed-by-user': 'The Google sign-in window was closed before completion.',
+      'auth/popup-blocked': 'Your browser blocked the Google sign-in window. Allow pop-ups and try again.',
+      'auth/unauthorized-domain': 'This site is not enabled in Firebase yet. Add its domain under Firebase Authentication → Settings → Authorized domains.',
+      'auth/too-many-requests': 'Too many attempts. Wait a moment and try again.',
+      'auth/network-request-failed': 'A network error interrupted sign-in. Check your connection and try again.'
+    };
+    return messages[error.code] || 'We could not complete sign-in. Check your details and try again.';
+  }
+
+  function enterAuthenticatedSite(user) {
+    window.airyqtipUser = user;
+    gate.classList.remove('show');
+    gate.classList.add('hide');
+    site.classList.add('show');
+    authNav.hidden = false;
+    authUserLabel.textContent = user.displayName || user.email || 'Signed in';
+  }
+
+  document.querySelectorAll('[data-auth-mode]').forEach((button) => {
+    button.addEventListener('click', () => setAuthMode(button.dataset.authMode));
+  });
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    setMessage('');
+
+    const signup = authMode === 'signup';
+    let valid = true;
+    const validations = {
+      email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email.value.trim()),
+      password: fields.password.value.length >= 6
+    };
+    if (signup) {
+      validations.firstName = fields.firstName.value.trim().length > 1;
+      validations.lastName = fields.lastName.value.trim().length > 1;
+      validations.phone = /^[0-9+()\-\s]{7,15}$/.test(fields.phone.value.trim());
+      validations.confirmPassword = fields.confirmPassword.value === fields.password.value
+        && fields.confirmPassword.value.length >= 6;
+    }
+    Object.entries(validations).forEach(([key, validField]) => {
+      const wrap = fields[key].closest('.field');
+      wrap.classList.toggle('err', !validField);
+      if (!validField) valid = false;
+    });
+    if (!valid) return;
+
+    setLoading(true);
+    try {
+      if (signup) {
+        const credential = await createUserWithEmailAndPassword(
+          auth,
+          fields.email.value.trim(),
+          fields.password.value
+        );
+        const displayName = `${fields.firstName.value.trim()} ${fields.lastName.value.trim()}`;
+        await updateProfile(credential.user, { displayName });
+        localStorage.setItem('airyqtip_profile', JSON.stringify({
+          firstName: fields.firstName.value.trim(),
+          lastName: fields.lastName.value.trim(),
+          email: fields.email.value.trim(),
+          phone: fields.phone.value.trim(),
+          createdAt: new Date().toISOString()
+        }));
+      } else {
+        await signInWithEmailAndPassword(
+          auth,
+          fields.email.value.trim(),
+          fields.password.value
+        );
+      }
+    } catch (error) {
+      setMessage(readableAuthError(error));
+      setLoading(false);
+    }
+  });
+
+  googleSignIn.addEventListener('click', async () => {
+    setMessage('');
+    setLoading(true);
+    try {
+      await signInWithPopup(auth, googleProvider);
+    } catch (error) {
+      setMessage(readableAuthError(error));
+      setLoading(false);
+    }
+  });
+
+  forgotPassword.addEventListener('click', async (event) => {
+    event.preventDefault();
+    const email = fields.email.value.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      fields.email.closest('.field').classList.add('err');
+      setMessage('Enter your email first, then choose “Forgot your password?”.');
+      return;
+    }
+    setLoading(true);
+    try {
+      await sendPasswordResetEmail(auth, email);
+      setMessage('Password reset email sent. Check your inbox.', true);
+    } catch (error) {
+      setMessage(readableAuthError(error));
+    } finally {
+      setLoading(false);
+    }
+  });
+
+  signOutBtn.addEventListener('click', async () => {
+    await signOut(auth);
+  });
+
+  onAuthStateChanged(auth, (user) => {
+    window.airyqtipUser = user;
+    setLoading(false);
+    if (user) {
+      enterAuthenticatedSite(user);
+    } else {
+      authNav.hidden = true;
+      site.classList.remove('show');
+      if (document.getElementById('splash').classList.contains('hide')) gate.classList.add('show');
+    }
+  });
+</script>
+</html>
